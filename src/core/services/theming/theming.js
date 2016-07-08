@@ -134,6 +134,8 @@ function detectDisabledThemes($mdThemingProvider) {
  * {{primary-contrast}} - Generates .md-hue-1, .md-hue-2, .md-hue-3 with configured contrast (ie. text) color shades set for each hue
  * {{primary-contrast-0.7}} - Apply 0.7 opacity to each of the above rules
  * {{primary-contrast-divider}} - Apply divider opacity to contrast color
+ * {{background-default-contrast}} - Apply primary text color for contrasting with default background
+ * {{background-50-contrast-icon}} - Apply contrast color for icon on background's shade 50 hue
  *
  * Foreground expansion: Applies rgba to black/white foreground text
  *
