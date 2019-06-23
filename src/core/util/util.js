@@ -170,12 +170,16 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
       return $mdUtil.clientRect(element, offsetParent, true);
     },
 
-    // Annoying method to copy nodes to an array, thanks to IE
+    /**
+     * Annoying method to copy nodes to an array, thanks to IE.
+     * @param nodes
+     * @return {Array}
+     */
     nodesToArray: function(nodes) {
+      var results = [], i;
       nodes = nodes || [];
 
-      var results = [];
-      for (var i = 0; i < nodes.length; ++i) {
+      for (i = 0; i < nodes.length; ++i) {
         results.push(nodes.item(i));
       }
       return results;
@@ -894,9 +898,8 @@ function UtilFactory($document, $timeout, $compile, $rootScope, $$mdAnimate, $in
      *
      *    $mdUtil.uniq(myArray) => [1, 2, 3, 4]
      *
-     * @param {array} array The array whose unique values should be returned.
-     *
-     * @returns {array} A copy of the array containing only unique values.
+     * @param {Array} array The array whose unique values should be returned.
+     * @returns {Array|void} A copy of the array containing only unique values.
      */
     uniq: function(array) {
       if (!array) { return; }
