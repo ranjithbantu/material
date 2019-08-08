@@ -744,6 +744,7 @@ function SelectMenuDirective($parse, $mdUtil, $mdConstant, $mdTheming) {
       return self.options;
     }, function() {
       self.ngModel.$render();
+      updateOptionSetSizeAndPosition();
     });
 
     /**
@@ -1016,9 +1017,32 @@ function SelectMenuDirective($parse, $mdUtil, $mdConstant, $mdTheming) {
       }
     };
 
+    /**
+     * If the options include md-optgroups, then we need to apply aria-setsize and aria-posinset
+     * to help screen readers understand the indexes. When md-optgroups are not used, we save on
+     * perf and extra attributes by not applying these attributes as they are not needed by screen
+     * readers.
+     */
+    function updateOptionSetSizeAndPosition() {
+      var i, options;
+      var hasOptGroup = $element.find('md-optgroup');
+      if (!hasOptGroup.length) {
+        return;
+      }
+
+      options = $element.find('md-option');
+
+      for (i = 0; i < options.length; i++) {
+        options[i].setAttribute('aria-setsize', options.length);
+        options[i].setAttribute('aria-posinset', i + 1);
+      }
+    }
+
     function renderMultiple() {
       var newSelectedValues = self.ngModel.$modelValue || self.ngModel.$viewValue || [];
-      if (!angular.isArray(newSelectedValues)) return;
+      if (!angular.isArray(newSelectedValues)) {
+        return;
+      }
 
       var oldSelected = Object.keys(self.selected);
 
@@ -1320,6 +1344,7 @@ function OptgroupDirective() {
     if (!hasSelectHeader()) {
       setupLabelElement();
     }
+    element.attr('role', 'group');
 
     function hasSelectHeader() {
       return element.parent().find('md-select-header').length;
@@ -1336,6 +1361,7 @@ function OptgroupDirective() {
       if (attrs.label) {
         labelElement.text(attrs.label);
       }
+      element.attr('aria-label', labelElement.text());
     }
   }
 }
